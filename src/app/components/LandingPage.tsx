@@ -22,13 +22,13 @@ import {
   ScalingIcon,
   BarChart3,
   ShieldCheck,
-  Twitter,
-  Facebook,
-  Instagram,
   Linkedin,
   ArrowRight,
   Play,
   Check,
+  Plane,
+  Globe2,
+  Map,
 } from 'lucide-react';
 
 // Figma assets — exported from node 40:4191 of the Zarah-AI-LLP file
@@ -170,8 +170,12 @@ function Header() {
           : undefined
       }
     >
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-1.5 sm:px-6 sm:py-2 lg:px-8">
-        <a href="#home" className="flex items-center" aria-label="Zarah AI home">
+      <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-2 sm:px-6 sm:py-2.5 lg:px-8">
+        <a
+          href="#home"
+          className="flex items-center transition-transform hover:scale-[1.03]"
+          aria-label="Zarah AI home"
+        >
           <img src={zarahLogo} alt="Zarah AI" className="h-9 w-auto sm:h-10 lg:h-11" />
         </a>
 
@@ -180,7 +184,7 @@ function Header() {
             <a
               key={l.href}
               href={l.href}
-              className="group relative text-[13px] font-medium text-white/90 transition-colors hover:text-white"
+              className="group relative text-[13px] font-medium text-white/85 transition-colors hover:text-white"
             >
               {l.label}
               <span
@@ -191,18 +195,33 @@ function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-full border px-5 py-1.5 text-[13px] font-medium text-white transition-all hover:bg-white hover:text-[var(--dark)]"
-            style={
-              {
-                borderColor: C.bgDarkSoft,
-                ['--dark' as never]: C.bgDark,
-              } as React.CSSProperties
-            }
+            className="text-[13px] font-medium text-white/75 transition-colors hover:text-white"
           >
             Login
+          </a>
+          <a
+            href="#contact"
+            className="nav-cta group relative inline-flex items-center justify-center gap-1.5 overflow-hidden rounded-full px-5 py-2 text-[13px] font-semibold transition-all duration-300 hover:scale-[1.04] active:scale-[0.97]"
+            style={{
+              background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellow} 100%)`,
+              color: C.bgDark,
+              boxShadow: `0 4px 16px ${C.yellow}55, inset 0 1px 0 #ffffff80`,
+            }}
+          >
+            <Sparkles className="h-3.5 w-3.5 transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110" />
+            <span className="relative z-10">Get Started</span>
+            <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            <span
+              aria-hidden
+              className="nav-cta-shine pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12"
+              style={{
+                background:
+                  'linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent)',
+              }}
+            />
           </a>
         </div>
 
@@ -211,7 +230,7 @@ function Header() {
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-lg border text-white transition-colors hover:bg-white/5 md:hidden"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-lg border text-white transition-colors hover:bg-white/5 md:hidden"
           style={{ borderColor: C.bgDarkSoft }}
         >
           {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -238,13 +257,37 @@ function Header() {
           <a
             href="#contact"
             onClick={close}
-            className="mt-2 rounded-full border-2 px-3 py-2 text-center text-sm font-medium text-white transition-colors"
-            style={{ borderColor: C.bgDarkSoft }}
+            className="mt-1 rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/5"
           >
             Login
           </a>
+          <a
+            href="#contact"
+            onClick={close}
+            className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-semibold transition-transform active:scale-[0.97]"
+            style={{
+              background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellow} 100%)`,
+              color: C.bgDark,
+              boxShadow: `0 4px 14px ${C.yellow}40`,
+            }}
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            Get Started
+            <ArrowRight className="h-3.5 w-3.5" />
+          </a>
         </nav>
       </div>
+
+      <style>{`
+        .nav-cta-shine {
+          animation: navShine 3.2s ease-in-out infinite;
+        }
+        @keyframes navShine {
+          0%   { transform: translateX(0) skewX(-12deg); }
+          60%  { transform: translateX(420%) skewX(-12deg); }
+          100% { transform: translateX(420%) skewX(-12deg); }
+        }
+      `}</style>
     </header>
   );
 }
@@ -336,7 +379,7 @@ function Hero() {
       <HeroBackground />
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-8 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
+        <div className="grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
           {/* LEFT: copy */}
           <div className="text-center lg:text-left">
             <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
@@ -530,8 +573,11 @@ function HeroVisual() {
         />
       </div>
 
-      {/* 2 floating automation cards */}
+      {/* 2 floating automation cards (desktop / tablet) */}
       <FloatingCards />
+
+      {/* Mobile-only: industry containers around the motion graphic */}
+      <MobileIndustryOrbit />
     </div>
   );
 }
@@ -625,6 +671,122 @@ function FloatingCards() {
         </div>
       ))}
     </>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Mobile-only industry orbit — small glassmorphic containers placed at the
+   four corners of the hero motion graphic. Each container names a travel
+   vertical Zarah serves and the one value it delivers there.
+   ───────────────────────────────────────────────────────────────────────────── */
+function MobileIndustryOrbit() {
+  const items: {
+    icon: React.ComponentType<{ className?: string }>;
+    label: string;
+    value: string;
+    pos: string;            // tailwind absolute position classes
+    delay: string;
+    floatDelay: string;
+  }[] = [
+    {
+      icon: Plane,
+      label: 'Agencies',
+      value: 'AI itineraries',
+      pos: 'top-2 left-2 origin-top-left',
+      delay: '0.30s',
+      floatDelay: '0s',
+    },
+    {
+      icon: Globe2,
+      label: 'DMCs',
+      value: 'Vendor sync',
+      pos: 'top-2 right-2 origin-top-right',
+      delay: '0.50s',
+      floatDelay: '0.6s',
+    },
+    {
+      icon: Users,
+      label: 'MICE',
+      value: 'Group ops',
+      pos: 'bottom-2 left-2 origin-bottom-left',
+      delay: '0.70s',
+      floatDelay: '1.2s',
+    },
+    {
+      icon: Map,
+      label: 'Tour Ops',
+      value: 'Live inventory',
+      pos: 'bottom-2 right-2 origin-bottom-right',
+      delay: '0.90s',
+      floatDelay: '1.8s',
+    },
+  ];
+
+  return (
+    <div className="sm:hidden">
+      {items.map((it) => {
+        const Icon = it.icon;
+        return (
+          <div
+            key={it.label}
+            className={`pointer-events-none absolute z-10 ${it.pos}`}
+            style={{
+              animation: `cardEntry 0.8s ${it.delay} cubic-bezier(0.2,0.9,0.3,1.2) backwards, cardFloat 7s ${it.floatDelay} ease-in-out infinite`,
+            }}
+          >
+            <div
+              className="relative flex w-[88px] flex-col items-center gap-1.5 overflow-hidden rounded-xl px-2 py-2 backdrop-blur-md"
+              style={{
+                background:
+                  'linear-gradient(160deg, rgba(31,31,31,0.88) 0%, rgba(42,41,41,0.72) 100%)',
+                border: `1px solid ${C.bgDarkSoft}`,
+                boxShadow: `0 8px 22px -10px rgba(0,0,0,0.7), 0 0 18px ${C.yellowGlow}1f, inset 0 1px 0 ${C.yellowGlow}1a`,
+              }}
+            >
+              {/* Inner soft yellow glow that breathes */}
+              <span
+                aria-hidden
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background: `radial-gradient(circle at 50% 0%, ${C.yellowGlow}1f 0%, transparent 70%)`,
+                  animation: 'industryGlow 3.6s ease-in-out infinite',
+                }}
+              />
+
+              <div
+                className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                style={{
+                  background: `linear-gradient(135deg, ${C.yellowGlow}40 0%, ${C.yellow}26 100%)`,
+                  border: `1px solid ${C.yellowGlow}66`,
+                  boxShadow: `0 0 12px ${C.yellowGlow}33, inset 0 0 6px ${C.yellowGlow}22`,
+                }}
+              >
+                <Icon className="h-3.5 w-3.5" style={{ color: C.yellowGlow }} />
+              </div>
+
+              <div className="relative text-center">
+                <p className="text-[10px] font-semibold leading-tight text-white">
+                  {it.label}
+                </p>
+                <p
+                  className="mt-0.5 text-[8.5px] leading-tight"
+                  style={{ color: '#bdbdbd' }}
+                >
+                  {it.value}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+
+      <style>{`
+        @keyframes industryGlow {
+          0%, 100% { opacity: 0.55; }
+          50%      { opacity: 1; }
+        }
+      `}</style>
+    </div>
   );
 }
 
@@ -780,12 +942,12 @@ function Features() {
         />
       </div>
 
-      {/* Animated travel route dotted lines */}
+      {/* Animated travel route dotted lines — hidden on mobile to avoid stray markers */}
       <svg
         aria-hidden
         viewBox="0 0 1600 800"
         preserveAspectRatio="xMidYMid slice"
-        className="pointer-events-none absolute inset-0 h-full w-full"
+        className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
       >
         <defs>
           <linearGradient id="route1" x1="0" y1="0" x2="1" y2="0">
@@ -915,7 +1077,7 @@ function WhyZarah() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-7 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-12 grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {BENEFITS.map((b) => {
             const Icon = b.icon;
             return (
@@ -1170,98 +1332,152 @@ function CTACard() {
    Footer
    ───────────────────────────────────────────────────────────────────────────── */
 function Footer() {
-  const cols: { title: string; links: string[] }[] = [
-    { title: 'Product', links: ['Featuring', 'Benefits', 'Pricing'] },
-    { title: 'Company', links: ['About us', 'Blog', 'Careers', 'Contact'] },
-    { title: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Security'] },
-    { title: 'Connect', links: ['Twitter', 'LinkedIn', 'Facebook', 'Instagram'] },
-  ];
-  const socials = [
-    { icon: Twitter, label: 'Twitter' },
-    { icon: Linkedin, label: 'LinkedIn' },
-    { icon: Facebook, label: 'Facebook' },
-    { icon: Instagram, label: 'Instagram' },
+  const LINKEDIN_URL = 'https://www.linkedin.com/company/zarahai/';
+
+  const navLinks = [
+    { label: 'Home', href: '#home' },
+    { label: 'Features', href: '#features' },
+    { label: 'Why Zarah', href: '#why' },
+    { label: 'Get Started', href: '#contact' },
   ];
 
   return (
-    <footer className="relative pt-12 pb-8" style={{ background: C.bgDark }}>
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center sm:hidden">
-          <img src={zarahLogo} alt="Zarah AI" className="h-10 w-auto" />
-        </div>
+    <footer
+      className="relative overflow-hidden pt-14 pb-8"
+      style={{ background: C.bgDark }}
+    >
+      {/* Subtle top accent line */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px"
+        style={{
+          background: `linear-gradient(90deg, transparent 0%, ${C.yellowGlow}40 50%, transparent 100%)`,
+        }}
+      />
 
-        <div className="mt-8 grid gap-8 sm:mt-0 sm:grid-cols-[1fr_2fr]">
-          <div className="hidden sm:block">
-            <div className="flex items-center">
-              <img src={zarahLogo} alt="Zarah AI" className="h-12 w-auto" />
-            </div>
-            <p className="mt-3 max-w-xs text-xs" style={{ color: '#9a9a9a' }}>
-              The AI travel partner for travel agencies, DMCs, and MICE organizers.
+      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-12">
+          {/* Brand */}
+          <div>
+            <a
+              href="#home"
+              className="inline-flex items-center transition-transform hover:scale-[1.02]"
+              aria-label="Zarah AI home"
+            >
+              <img src={zarahLogo} alt="Zarah AI" className="h-11 w-auto" />
+            </a>
+            <p
+              className="mt-4 max-w-sm text-sm leading-relaxed"
+              style={{ color: '#a8a8a8' }}
+            >
+              The AI travel partner for travel agencies, DMCs, and MICE organizers —
+              built to streamline your operations.
             </p>
-            <div className="mt-4 flex gap-2">
-              {socials.map((s) => {
-                const Icon = s.icon;
-                return (
-                  <a
-                    key={s.label}
-                    href="#"
-                    aria-label={s.label}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors hover:bg-white/5"
-                    style={{ borderColor: C.bgDarkSoft, color: '#cfcfcf' }}
-                  >
-                    <Icon className="h-3.5 w-3.5" />
-                  </a>
-                );
-              })}
-            </div>
+
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit Zarah AI on LinkedIn"
+              className="group mt-5 inline-flex items-center gap-2.5 rounded-full border px-4 py-2 text-xs font-medium text-white/85 transition-all hover:scale-[1.02] hover:text-white"
+              style={{
+                borderColor: C.bgDarkSoft,
+                background: 'rgba(255,255,255,0.02)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = C.yellowGlow;
+                e.currentTarget.style.boxShadow = `0 0 18px ${C.yellowGlow}33`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = C.bgDarkSoft;
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              <span
+                className="inline-flex h-6 w-6 items-center justify-center rounded-full transition-colors"
+                style={{
+                  background: `${C.yellowGlow}1a`,
+                  color: C.yellowGlow,
+                }}
+              >
+                <Linkedin className="h-3.5 w-3.5" />
+              </span>
+              Follow us on LinkedIn
+              <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+            </a>
           </div>
 
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            {cols.map((c) => (
-              <div key={c.title}>
-                <h4 className="text-sm font-semibold text-white">{c.title}</h4>
-                <ul className="mt-3 space-y-2">
-                  {c.links.map((l) => (
-                    <li key={l}>
-                      <a
-                        href="#"
-                        className="text-xs transition-colors hover:text-white"
-                        style={{ color: '#9a9a9a' }}
-                      >
-                        {l}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+          {/* Quick links */}
+          <div>
+            <h4 className="text-sm font-semibold text-white">Explore</h4>
+            <ul className="mt-4 space-y-2.5">
+              {navLinks.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    className="group inline-flex items-center gap-1.5 text-[13px] transition-colors"
+                    style={{ color: '#a8a8a8' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = '#a8a8a8')}
+                  >
+                    <span
+                      className="h-px w-3 transition-all duration-300 group-hover:w-5"
+                      style={{ background: C.yellow }}
+                    />
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Get in touch */}
+          <div>
+            <h4 className="text-sm font-semibold text-white">Get in touch</h4>
+            <p
+              className="mt-4 text-[13px] leading-relaxed"
+              style={{ color: '#a8a8a8' }}
+            >
+              Want to see Zarah in action? Reach out and we'll get back to you within 24
+              hours.
+            </p>
+            <a
+              href="#contact"
+              className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
+              style={{ color: C.yellowGlow }}
+            >
+              Start a free trial
+              <ArrowRight className="h-3.5 w-3.5" />
+            </a>
           </div>
         </div>
 
         <div
-          className="mt-10 flex flex-col items-center justify-between gap-3 border-t pt-5 sm:flex-row"
+          className="mt-12 flex flex-col items-center justify-between gap-3 border-t pt-6 sm:flex-row"
           style={{ borderColor: C.bgDarkSoft }}
         >
           <p className="text-[11px]" style={{ color: '#7c7c7c' }}>
-            © {new Date().getFullYear()} Travel Mate Tech. All rights reserved. | Zarah —
-            Your AI Travel Planning Partner
+            © {new Date().getFullYear()} Zarah AI · Travel Mate Tech LLP. All rights
+            reserved.
           </p>
-          <div className="flex gap-2 sm:hidden">
-            {socials.map((s) => {
-              const Icon = s.icon;
-              return (
-                <a
-                  key={s.label}
-                  href="#"
-                  aria-label={s.label}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border transition-colors hover:bg-white/5"
-                  style={{ borderColor: C.bgDarkSoft, color: '#cfcfcf' }}
-                >
-                  <Icon className="h-3.5 w-3.5" />
-                </a>
-              );
-            })}
-          </div>
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Zarah AI on LinkedIn"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-full border transition-all hover:scale-110"
+            style={{ borderColor: C.bgDarkSoft, color: '#cfcfcf' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = C.yellowGlow;
+              e.currentTarget.style.color = C.yellowGlow;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = C.bgDarkSoft;
+              e.currentTarget.style.color = '#cfcfcf';
+            }}
+          >
+            <Linkedin className="h-3.5 w-3.5" />
+          </a>
         </div>
       </div>
     </footer>
