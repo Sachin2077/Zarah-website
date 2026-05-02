@@ -1065,53 +1065,6 @@ function WhyZarah() {
           filter: 'blur(50px)',
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.05]"
-        style={{
-          backgroundImage: `radial-gradient(${C.yellowGlow} 1px, transparent 1px)`,
-          backgroundSize: '32px 32px',
-        }}
-      />
-
-      {/* Smooth wave layers — drift slowly for ambient motion */}
-      <svg
-        aria-hidden
-        viewBox="0 0 1440 200"
-        preserveAspectRatio="none"
-        className="why-wave-1 pointer-events-none absolute inset-x-0 top-0 h-28 w-[120%] -translate-x-[10%]"
-      >
-        <path
-          d="M 0 100 C 240 30 480 140 720 80 S 1200 60 1440 110 L 1440 0 L 0 0 Z"
-          fill={C.bgDarkSoft}
-          opacity="0.45"
-        />
-      </svg>
-      <svg
-        aria-hidden
-        viewBox="0 0 1440 200"
-        preserveAspectRatio="none"
-        className="why-wave-2 pointer-events-none absolute inset-x-0 bottom-0 h-32 w-[120%] -translate-x-[10%]"
-      >
-        <path
-          d="M 0 110 C 280 40 560 160 840 90 S 1200 130 1440 80 L 1440 200 L 0 200 Z"
-          fill={C.bgDarkSoft}
-          opacity="0.35"
-        />
-      </svg>
-
-      <style>{`
-        .why-wave-1 { animation: whyWave1 20s ease-in-out infinite; }
-        .why-wave-2 { animation: whyWave2 26s ease-in-out infinite; }
-        @keyframes whyWave1 {
-          0%, 100% { transform: translateX(-10%); }
-          50%      { transform: translateX(-6%); }
-        }
-        @keyframes whyWave2 {
-          0%, 100% { transform: translateX(-10%); }
-          50%      { transform: translateX(-14%); }
-        }
-      `}</style>
 
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="reveal mx-auto flex max-w-2xl flex-col items-center text-center">
