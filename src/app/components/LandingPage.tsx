@@ -24,7 +24,6 @@ import {
   ShieldCheck,
   Linkedin,
   ArrowRight,
-  Play,
   Check,
   Plane,
   Globe2,
@@ -373,72 +372,68 @@ function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden pt-20 pb-16 sm:pt-24 sm:pb-20 lg:pt-28 lg:pb-24"
+      className="relative overflow-hidden lg:flex lg:h-screen lg:items-center lg:pt-24"
       style={{ background: C.bgDark }}
     >
       <HeroBackground />
 
-      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-10 sm:gap-12 lg:grid-cols-[1.05fr_1fr] lg:gap-12">
-          {/* LEFT: copy */}
-          <div className="text-center lg:text-left">
-            <h1 className="text-3xl font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
-              <span className="inline-flex items-center gap-2 sm:gap-3">
-                Meet
-                <span
-                  className="relative inline-flex items-center"
+      <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="lg:grid lg:items-center lg:gap-12 lg:grid-cols-[1.05fr_1fr]">
+          {/* LEFT: copy — full viewport on mobile so the star sits below the fold */}
+          <div className="flex min-h-screen flex-col items-center justify-center pt-24 text-center lg:block lg:min-h-0 lg:pt-0 lg:text-left">
+            <div className="mx-auto w-full max-w-[320px] lg:max-w-none">
+              <h1 className="text-[26px] font-bold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
+                <span className="inline-flex items-center gap-2 sm:gap-3">
+                  Meet
+                  <span
+                    className="relative inline-flex items-center"
+                    style={{
+                      background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellowSoft} 100%)`,
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                    }}
+                  >
+                    Zarah
+                    <img
+                      src={zarahTextStar}
+                      alt=""
+                      aria-hidden
+                      className="ml-1 inline-block h-5 w-5 sm:h-7 sm:w-7"
+                    />
+                  </span>
+                </span>
+                <br />
+                Your AI Travel Partner
+              </h1>
+
+              <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/75 sm:text-base lg:mx-0">
+                Transform the way you manage travel operations. Zarah combines AI-powered
+                itinerary creation, intelligent cost prediction, and seamless document
+                management — all in one platform.
+              </p>
+
+              <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
+                <a
+                  href="#contact"
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] sm:w-auto sm:py-3"
                   style={{
                     background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellowSoft} 100%)`,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
+                    color: C.bgDark,
+                    boxShadow: `0 4px 18px ${C.yellowSoft}40`,
                   }}
                 >
-                  Zarah
-                  <img
-                    src={zarahTextStar}
-                    alt=""
-                    aria-hidden
-                    className="ml-1 inline-block h-5 w-5 sm:h-7 sm:w-7"
-                  />
-                </span>
-              </span>
-              <br />
-              Your AI Travel Partner
-            </h1>
-
-            <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/75 sm:text-base lg:mx-0">
-              Transform the way you manage travel operations. Zarah combines AI-powered
-              itinerary creation, intelligent cost prediction, and seamless document
-              management — all in one platform.
-            </p>
-
-            <div className="mt-7 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-              <a
-                href="#contact"
-                className="group inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition-all hover:scale-[1.02] active:scale-[0.98] sm:w-auto sm:py-3"
-                style={{
-                  background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellowSoft} 100%)`,
-                  color: C.bgDark,
-                  boxShadow: `0 4px 18px ${C.yellowSoft}40`,
-                }}
-              >
-                Start A Free Trial
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href="#features"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-white/5 sm:w-auto sm:py-3"
-                style={{ borderColor: C.bgDarkSoft }}
-              >
-                <Play className="h-4 w-4" />
-                Watch Demo
-              </a>
+                  Start A Free Trial
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* RIGHT: AI travel mission control composition */}
-          <HeroVisual />
+          {/* RIGHT: AI travel mission control composition — sits below the fold on mobile, side panel on lg+ */}
+          <div className="pb-16 lg:pb-0">
+            <HeroVisual />
+          </div>
         </div>
       </div>
 
@@ -735,7 +730,7 @@ function MobileIndustryOrbit() {
             }}
           >
             <div
-              className="relative flex w-[88px] flex-col items-center gap-1.5 overflow-hidden rounded-xl px-2 py-2 backdrop-blur-md"
+              className="relative flex w-[108px] flex-col items-center gap-2 overflow-hidden rounded-xl px-2.5 py-2.5 backdrop-blur-md"
               style={{
                 background:
                   'linear-gradient(160deg, rgba(31,31,31,0.88) 0%, rgba(42,41,41,0.72) 100%)',
@@ -754,22 +749,22 @@ function MobileIndustryOrbit() {
               />
 
               <div
-                className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+                className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
                 style={{
                   background: `linear-gradient(135deg, ${C.yellowGlow}40 0%, ${C.yellow}26 100%)`,
                   border: `1px solid ${C.yellowGlow}66`,
                   boxShadow: `0 0 12px ${C.yellowGlow}33, inset 0 0 6px ${C.yellowGlow}22`,
                 }}
               >
-                <Icon className="h-3.5 w-3.5" style={{ color: C.yellowGlow }} />
+                <Icon className="h-4.5 w-4.5" style={{ color: C.yellowGlow }} />
               </div>
 
               <div className="relative text-center">
-                <p className="text-[10px] font-semibold leading-tight text-white">
+                <p className="text-xs font-semibold leading-tight text-white">
                   {it.label}
                 </p>
                 <p
-                  className="mt-0.5 text-[8.5px] leading-tight"
+                  className="mt-0.5 text-[10.5px] leading-tight"
                   style={{ color: '#bdbdbd' }}
                 >
                   {it.value}
@@ -797,20 +792,21 @@ function FeatureCard({ group }: { group: FeatureGroup }) {
   const Icon = group.icon;
   return (
     <div
-      className="feature-card group relative flex flex-col overflow-hidden rounded-2xl p-5 text-white"
+      className="feature-card group relative flex h-full flex-col overflow-hidden rounded-xl p-5 text-white"
       style={{
-        background: C.bgDark,
-        boxShadow: `0 4px 16px ${C.bgDark}1a`,
-        transition: 'transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 400ms ease',
+        background: `linear-gradient(160deg, ${C.bgDarkSoft} 0%, ${C.bgDark} 100%)`,
+        border: `1px solid ${C.bgDarkSoft}`,
+        boxShadow: `inset 0 1px 0 ${C.yellowGlow}14, 0 1px 2px rgba(0,0,0,0.4), 0 12px 28px -12px rgba(0,0,0,0.55)`,
+        transition: 'transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 400ms ease, border-color 400ms ease',
       }}
     >
       {/* Animated gradient border on hover */}
       <span
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
-          padding: '1.5px',
-          background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellowSoft}80 50%, transparent 100%)`,
+          padding: '1px',
+          background: `linear-gradient(135deg, ${C.yellowGlow}80 0%, ${C.yellowSoft}40 50%, transparent 100%)`,
           WebkitMask:
             'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
           WebkitMaskComposite: 'xor',
@@ -821,54 +817,49 @@ function FeatureCard({ group }: { group: FeatureGroup }) {
       {/* Cursor-following spotlight */}
       <span
         aria-hidden
-        className="feature-card-spotlight pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="feature-card-spotlight pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
-          background: `radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), ${C.yellowGlow}1a, transparent 40%)`,
+          background: `radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), ${C.yellowGlow}12, transparent 45%)`,
         }}
       />
 
-      {/* Subtle shine sweep on hover */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute -inset-px overflow-hidden rounded-2xl"
-      >
-        <span
-          className="feature-card-shine absolute -left-1/2 top-0 h-full w-1/2"
-          style={{
-            background: `linear-gradient(115deg, transparent 0%, ${C.yellowGlow}1a 45%, ${C.yellowGlow}33 50%, ${C.yellowGlow}1a 55%, transparent 100%)`,
-            transform: 'translateX(-100%) skewX(-12deg)',
-          }}
-        />
-      </span>
-
       {/* Content */}
-      <div className="relative">
-        <div
-          className="feature-card-icon inline-flex h-11 w-11 items-center justify-center rounded-lg transition-all duration-500"
-          style={{
-            background: `${C.yellow}1f`,
-            border: `1px solid ${C.yellow}55`,
-          }}
-        >
-          <Icon className="h-5 w-5 transition-transform duration-500" style={{ color: C.yellow }} />
+      <div className="relative flex h-full flex-col">
+        {/* Icon + Title in one row */}
+        <div className="flex items-center gap-3">
+          <div
+            className="feature-card-icon flex h-9 w-9 shrink-0 items-center justify-center rounded-lg transition-all duration-500"
+            style={{
+              background: `${C.yellow}14`,
+              border: `1px solid ${C.yellow}33`,
+              boxShadow: `inset 0 1px 0 ${C.yellow}22`,
+            }}
+          >
+            <Icon className="h-4 w-4 transition-transform duration-500" style={{ color: C.yellow }} />
+          </div>
+          <h3 className="text-[15px] font-semibold leading-tight tracking-tight text-white">
+            {group.title}
+          </h3>
         </div>
 
-        <h3 className="mt-4 text-lg font-semibold leading-snug text-white transition-colors duration-300 group-hover:text-[var(--soft)]"
-          style={{ ['--soft' as never]: C.yellowGlow } as React.CSSProperties}
-        >
-          {group.title}
-        </h3>
-        <p className="mt-2 text-[13px] leading-relaxed text-white/70">{group.description}</p>
+        <p className="mt-3 text-xs leading-relaxed text-white/55">{group.description}</p>
 
-        <ul className="mt-5 space-y-2">
+        {/* Hairline divider */}
+        <span
+          aria-hidden
+          className="my-4 block h-px w-full"
+          style={{ background: C.bgDarkSoft }}
+        />
+
+        <ul className="space-y-2">
           {group.bullets.map((b) => {
             const BIcon = b.icon;
             return (
               <li
                 key={b.label}
-                className="flex items-center gap-2 text-[13px] text-white/85 transition-transform duration-300"
+                className="flex items-center gap-2 text-xs leading-snug text-white/70"
               >
-                <BIcon className="h-3.5 w-3.5 shrink-0" style={{ color: C.yellow }} />
+                <BIcon className="h-3 w-3 shrink-0" style={{ color: `${C.yellow}cc` }} />
                 {b.label}
               </li>
             );
@@ -898,30 +889,19 @@ function Features() {
   return (
     <section
       id="features"
-      className="relative overflow-hidden py-16 sm:py-20"
-      style={{
-        background: `radial-gradient(ellipse at top, #fafafa 0%, #ffffff 50%, #f4f4f5 100%)`,
-      }}
+      className="relative overflow-hidden pt-12 pb-20 sm:pt-20"
+      style={{ background: '#f8f8f8' }}
     >
       <style>{`
         .feature-card { will-change: transform; }
         .feature-card:hover {
-          transform: translateY(-8px) scale(1.015);
-          box-shadow: 0 24px 50px -12px ${C.bgDark}99, 0 0 32px ${C.yellowGlow}1f;
+          transform: translateY(-4px);
+          border-color: ${C.yellowGlow}40 !important;
+          box-shadow: inset 0 1px 0 ${C.yellowGlow}26, 0 18px 40px -14px rgba(0,0,0,0.7), 0 0 0 1px ${C.yellowGlow}1a inset;
         }
         .feature-card:hover .feature-card-icon {
-          background: ${C.yellow}33 !important;
-          border-color: ${C.yellow} !important;
-          transform: rotate(-6deg) scale(1.1);
-          box-shadow: 0 0 22px ${C.yellowGlow}55;
-        }
-        .feature-card:hover .feature-card-icon svg { transform: scale(1.1); }
-        .feature-card:hover .feature-card-shine {
-          animation: cardShine 1.1s ease-out;
-        }
-        @keyframes cardShine {
-          0%   { transform: translateX(-100%) skewX(-12deg); }
-          100% { transform: translateX(350%)  skewX(-12deg); }
+          background: ${C.yellow}26 !important;
+          border-color: ${C.yellow}66 !important;
         }
       `}</style>
       {/* World map background — Figma asset */}
@@ -934,112 +914,45 @@ function Features() {
           alt=""
           className="h-auto w-full max-w-[1700px] select-none"
           style={{
-            opacity: 0.85,
-            filter: 'grayscale(1) contrast(0.95) brightness(0.95)',
-            mixBlendMode: 'multiply',
+            opacity: 0.35,
+            filter: 'grayscale(1) brightness(0)',
           }}
           draggable={false}
         />
       </div>
 
-      {/* Animated travel route dotted lines — hidden on mobile to avoid stray markers */}
-      <svg
-        aria-hidden
-        viewBox="0 0 1600 800"
-        preserveAspectRatio="xMidYMid slice"
-        className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
-      >
-        <defs>
-          <linearGradient id="route1" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor={C.yellowSoft} stopOpacity="0" />
-            <stop offset="50%" stopColor={C.yellowSoft} stopOpacity="0.7" />
-            <stop offset="100%" stopColor={C.yellowSoft} stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        <path
-          d="M 200,300 Q 600,150 1000,250 T 1500,200"
-          fill="none"
-          stroke="url(#route1)"
-          strokeWidth="1.5"
-          strokeDasharray="4 6"
-          opacity="0.6"
-        />
-        <path
-          d="M 100,500 Q 500,400 900,480 T 1400,440"
-          fill="none"
-          stroke="url(#route1)"
-          strokeWidth="1.5"
-          strokeDasharray="4 6"
-          opacity="0.4"
-        />
-        {/* destination markers */}
-        {[
-          [200, 300],
-          [1000, 250],
-          [1500, 200],
-          [100, 500],
-          [900, 480],
-          [1400, 440],
-        ].map(([x, y], i) => (
-          <g key={i}>
-            <circle cx={x} cy={y} r="6" fill={C.yellowSoft} opacity="0.25" />
-            <circle cx={x} cy={y} r="3" fill={C.yellow} opacity="0.7">
-              <animate
-                attributeName="opacity"
-                values="0.3;1;0.3"
-                dur="3s"
-                begin={`${i * 0.4}s`}
-                repeatCount="indefinite"
-              />
-            </circle>
-          </g>
-        ))}
-      </svg>
-
-      {/* Decorative blurred yellow orbs for visual interest */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-[-100px] top-1/3 h-[300px] w-[300px] rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${C.yellowGlow}30 0%, transparent 70%)`,
-          filter: 'blur(40px)',
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[-80px] top-[10%] h-[260px] w-[260px] rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${C.yellowSoft}25 0%, transparent 70%)`,
-          filter: 'blur(40px)',
-        }}
-      />
-
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+        <div className="reveal mx-auto flex max-w-2xl flex-col items-center text-center">
           <span
-            className="inline-flex items-center gap-2 rounded-full border-2 px-4 py-1.5 text-xs font-medium sm:text-sm"
-            style={{ borderColor: C.bgDarkSoft, color: C.bgDark }}
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-medium text-white sm:text-sm"
+            style={{
+              background: `linear-gradient(${C.bgDark}, ${C.bgDark}) padding-box, linear-gradient(135deg, ${C.yellow} 0%, #ffffff 100%) border-box`,
+              border: '2px solid transparent',
+            }}
           >
             <img src={featuresPillStar} alt="" aria-hidden className="h-4 w-4" />
             Features
           </span>
           <h2
             className="mt-5 text-2xl font-bold leading-tight tracking-tight sm:text-3xl lg:text-[34px]"
-            style={{ color: C.gray }}
+            style={{ color: C.bgDark }}
           >
             Powerful Features, Simply Designed
           </h2>
-          <p
-            className="mt-3 text-sm sm:text-base"
-            style={{ color: C.gray, opacity: 0.8 }}
-          >
+          <p className="mt-3 text-sm sm:text-base" style={{ color: C.gray }}>
             Everything a modern travel team needs — without the complexity.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {FEATURE_GROUPS.map((g) => (
-            <FeatureCard key={g.title} group={g} />
+        <div className="mt-12 grid gap-6 sm:auto-rows-fr sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {FEATURE_GROUPS.map((g, i) => (
+            <div
+              key={g.title}
+              className="reveal h-full"
+              style={{ transitionDelay: `${i * 90}ms` }}
+            >
+              <FeatureCard group={g} />
+            </div>
           ))}
         </div>
       </div>
@@ -1054,13 +967,72 @@ function WhyZarah() {
   return (
     <section
       id="why"
-      className="relative overflow-hidden py-16 sm:py-20"
+      className="relative overflow-hidden py-20 sm:py-20"
       style={{
-        background: `linear-gradient(180deg, ${C.bgDark} 0%, #2c2c2c 100%)`,
+        background: `
+          radial-gradient(ellipse 60% 40% at 50% 0%, ${C.yellowGlow}0a 0%, transparent 60%),
+          linear-gradient(180deg, ${C.bgDark} 0%, ${C.bgDarkSoft} 50%, ${C.bgDark} 100%)
+        `,
       }}
     >
+      {/* Subtle world map silhouette */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
+      >
+        <img
+          src={worldMap}
+          alt=""
+          draggable={false}
+          className="h-auto w-[140%] max-w-none translate-y-[5%] select-none lg:w-[105%]"
+          style={{
+            opacity: 0.05,
+            filter: 'invert(1) brightness(2) contrast(1.1)',
+          }}
+        />
+      </div>
+
+      {/* Smooth wave layers — drift slowly for ambient motion */}
+      <svg
+        aria-hidden
+        viewBox="0 0 1440 200"
+        preserveAspectRatio="none"
+        className="why-wave-1 pointer-events-none absolute inset-x-0 top-0 h-28 w-[120%] -translate-x-[10%]"
+      >
+        <path
+          d="M 0 100 C 240 30 480 140 720 80 S 1200 60 1440 110 L 1440 0 L 0 0 Z"
+          fill={C.bgDarkSoft}
+          opacity="0.45"
+        />
+      </svg>
+      <svg
+        aria-hidden
+        viewBox="0 0 1440 200"
+        preserveAspectRatio="none"
+        className="why-wave-2 pointer-events-none absolute inset-x-0 bottom-0 h-32 w-[120%] -translate-x-[10%]"
+      >
+        <path
+          d="M 0 110 C 280 40 560 160 840 90 S 1200 130 1440 80 L 1440 200 L 0 200 Z"
+          fill={C.bgDarkSoft}
+          opacity="0.35"
+        />
+      </svg>
+
+      <style>{`
+        .why-wave-1 { animation: whyWave1 20s ease-in-out infinite; }
+        .why-wave-2 { animation: whyWave2 26s ease-in-out infinite; }
+        @keyframes whyWave1 {
+          0%, 100% { transform: translateX(-10%); }
+          50%      { transform: translateX(-6%); }
+        }
+        @keyframes whyWave2 {
+          0%, 100% { transform: translateX(-10%); }
+          50%      { transform: translateX(-14%); }
+        }
+      `}</style>
+
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+        <div className="reveal mx-auto flex max-w-2xl flex-col items-center text-center">
           <span
             className="inline-flex items-center gap-2 rounded-full border-2 px-4 py-1.5 text-xs font-medium text-white sm:text-sm"
             style={{ borderColor: C.bgDarkSoft }}
@@ -1077,27 +1049,35 @@ function WhyZarah() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-7 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          {BENEFITS.map((b) => {
+        <div className="mt-10 grid grid-cols-1 sm:mt-12 sm:grid-cols-2 sm:gap-7 md:grid-cols-3 lg:grid-cols-5">
+          {BENEFITS.map((b, i) => {
             const Icon = b.icon;
             return (
-              <div key={b.title} className="group flex flex-col items-start">
+              <div
+                key={b.title}
+                className={`reveal group flex items-start gap-4 py-5 sm:flex-col sm:gap-0 sm:py-0 ${
+                  i !== 0 ? 'border-t sm:border-t-0' : ''
+                }`}
+                style={{ borderColor: C.bgDarkSoft, transitionDelay: `${i * 70}ms` }}
+              >
                 <div
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110"
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 sm:h-10 sm:w-10"
                   style={{
-                    background: `${C.yellow}1a`,
-                    border: `1px solid ${C.yellow}55`,
+                    background: `${C.yellow}14`,
+                    border: `1px solid ${C.yellow}40`,
                   }}
                 >
-                  <Icon className="h-4.5 w-4.5" style={{ color: C.yellow }} />
+                  <Icon className="h-5 w-5 sm:h-4.5 sm:w-4.5" style={{ color: C.yellow }} />
                 </div>
-                <h3 className="mt-4 text-base font-semibold text-white">{b.title}</h3>
-                <p
-                  className="mt-2 text-[13px] leading-relaxed"
-                  style={{ color: '#bdbdbd' }}
-                >
-                  {b.description}
-                </p>
+                <div className="min-w-0 flex-1 sm:mt-4">
+                  <h3 className="text-base font-semibold leading-snug text-white">{b.title}</h3>
+                  <p
+                    className="mt-1 text-[13px] leading-relaxed sm:mt-2"
+                    style={{ color: '#bdbdbd' }}
+                  >
+                    {b.description}
+                  </p>
+                </div>
               </div>
             );
           })}
@@ -1356,7 +1336,7 @@ function Footer() {
       />
 
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr] md:gap-12">
+        <div className="grid gap-10 text-center md:grid-cols-[1.4fr_1fr_1fr] md:gap-12 md:text-left">
           {/* Brand */}
           <div>
             <a
@@ -1367,7 +1347,7 @@ function Footer() {
               <img src={zarahLogo} alt="Zarah AI" className="h-11 w-auto" />
             </a>
             <p
-              className="mt-4 max-w-sm text-sm leading-relaxed"
+              className="mx-auto mt-4 max-w-sm text-sm leading-relaxed md:mx-0"
               style={{ color: '#a8a8a8' }}
             >
               The AI travel partner for travel agencies, DMCs, and MICE organizers —
@@ -1497,15 +1477,121 @@ export default function LandingPage() {
     };
   }, []);
 
+  // Scroll-triggered fade-up for elements with .reveal
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  // Hero pin parallax — only on lg+ where the Hero is fixed-pinned
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const heroPin = document.getElementById('hero-pin');
+    if (!heroPin) return;
+    let raf = 0;
+    const apply = () => {
+      const vh = window.innerHeight || 1;
+      const isLg = window.matchMedia('(min-width: 1024px)').matches;
+      if (isLg) {
+        const y = window.scrollY;
+        const t = Math.min(Math.max(y / vh, 0), 1);
+        const eased = 1 - Math.pow(1 - t, 2);
+        heroPin.style.transform = `scale(${1 - eased * 0.06}) translate3d(0, ${eased * -28}px, 0)`;
+        heroPin.style.opacity = `${1 - eased * 0.45}`;
+        heroPin.style.filter = `blur(${eased * 4}px)`;
+      } else {
+        heroPin.style.transform = '';
+        heroPin.style.opacity = '';
+        heroPin.style.filter = '';
+      }
+      raf = 0;
+    };
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(apply);
+    };
+    apply();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen text-white antialiased" style={{ background: C.bgDark }}>
+    <div className="relative min-h-screen text-white antialiased" style={{ background: C.bgDark }}>
+      <style>{`
+        .reveal {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+          will-change: opacity, transform;
+        }
+        .reveal.is-visible {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        #hero-pin {
+          will-change: transform, opacity, filter;
+          transform-origin: 50% 40%;
+        }
+        .scroll-stack-top {
+          position: relative;
+        }
+        .scroll-stack-top::before {
+          content: '';
+          position: absolute;
+          inset: -1px 0 auto 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(255,246,144,0.18) 50%, transparent 100%);
+          z-index: 1;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .reveal { opacity: 1; transform: none; transition: none; }
+          #hero-pin { transform: none !important; opacity: 1 !important; filter: none !important; }
+        }
+      `}</style>
       <Header />
-      <main>
+
+      {/* Pinned Hero — fixed-pinned on lg+; on mobile it sits in normal flow so the user can scroll past the text to reveal the star */}
+      <div
+        id="hero-pin"
+        className="relative z-0 lg:fixed lg:inset-x-0 lg:top-0 lg:h-screen lg:overflow-hidden"
+      >
         <Hero />
-        <Features />
-        <WhyZarah />
-      </main>
-      <Footer />
+      </div>
+
+      {/* Spacer — reserves the Hero's footprint in document flow only when it's pinned */}
+      <div aria-hidden className="hidden h-screen lg:block" />
+
+      {/* Scrolling stack — covers the Hero with a real overlap shadow */}
+      <div
+        className="scroll-stack-top relative z-10"
+        style={{
+          boxShadow:
+            '0 -40px 70px -10px rgba(0,0,0,0.6), 0 -12px 28px -6px rgba(0,0,0,0.4)',
+        }}
+      >
+        <main>
+          <Features />
+          <WhyZarah />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
