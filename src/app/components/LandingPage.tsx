@@ -436,9 +436,9 @@ function Hero() {
       <HeroBackground />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:items-center lg:gap-12 lg:grid-cols-[1.05fr_1fr]">
-          {/* LEFT: copy — full viewport on mobile so the star sits below the fold */}
-          <div className="relative flex min-h-screen flex-col items-center justify-center pt-24 text-center lg:block lg:min-h-0 lg:pt-0 lg:text-left">
+        <div className="flex flex-col lg:grid lg:items-center lg:gap-12 lg:grid-cols-[1.05fr_1fr]">
+          {/* LEFT: copy — fills the first viewport on mobile (above the star), restores to left column on lg */}
+          <div className="relative order-1 flex min-h-screen flex-col items-center justify-center pt-24 text-center lg:order-none lg:block lg:min-h-0 lg:pt-0 lg:text-left">
             <div className="relative z-10 mx-auto w-full max-w-[340px] lg:max-w-none">
               <h1 className="text-[34px] font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
                 <span className="inline-flex items-center gap-2 sm:gap-3">
@@ -488,9 +488,14 @@ function Hero() {
             </div>
           </div>
 
-          {/* RIGHT: AI travel mission control composition — sits below the fold on mobile, side panel on lg+ */}
-          <div className="pb-16 lg:pb-0">
+          {/* RIGHT: AI travel mission control composition — sits below the copy on mobile, side panel on lg+ */}
+          <div className="order-2 pb-8 lg:order-none lg:py-0">
             <HeroVisual />
+          </div>
+
+          {/* Mobile-only: industry verticals listed below the star */}
+          <div className="order-3 pt-4 pb-20 lg:hidden">
+            <MobileIndustryGrid />
           </div>
         </div>
       </div>
@@ -635,9 +640,6 @@ function HeroVisual() {
 
       {/* 2 floating automation cards (desktop / tablet) */}
       <FloatingCards />
-
-      {/* Mobile-only: industry containers around the motion graphic */}
-      <MobileIndustryOrbit />
     </div>
   );
 }
@@ -735,106 +737,68 @@ function FloatingCards() {
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
-   Mobile-only industry orbit — small glassmorphic containers placed at the
-   four corners of the hero motion graphic. Each container names a travel
-   vertical Zarah serves and the one value it delivers there.
+   Mobile-only industry grid — 2x2 of glassmorphic cards naming the verticals
+   Zarah serves. Sits below the hero copy on mobile, hidden on sm+.
    ───────────────────────────────────────────────────────────────────────────── */
-function MobileIndustryOrbit() {
+function MobileIndustryGrid() {
   const items: {
     icon: React.ComponentType<{ className?: string }>;
     label: string;
     value: string;
-    pos: string;            // tailwind absolute position classes
-    delay: string;
-    floatDelay: string;
   }[] = [
-    {
-      icon: Plane,
-      label: 'Agencies',
-      value: 'AI itineraries',
-      pos: 'top-2 left-2 origin-top-left',
-      delay: '0.30s',
-      floatDelay: '0s',
-    },
-    {
-      icon: Globe2,
-      label: 'DMCs',
-      value: 'Vendor sync',
-      pos: 'top-2 right-2 origin-top-right',
-      delay: '0.50s',
-      floatDelay: '0.6s',
-    },
-    {
-      icon: Users,
-      label: 'MICE',
-      value: 'Group ops',
-      pos: 'bottom-2 left-2 origin-bottom-left',
-      delay: '0.70s',
-      floatDelay: '1.2s',
-    },
-    {
-      icon: Map,
-      label: 'Tour Ops',
-      value: 'Live inventory',
-      pos: 'bottom-2 right-2 origin-bottom-right',
-      delay: '0.90s',
-      floatDelay: '1.8s',
-    },
+    { icon: Plane,  label: 'Agencies', value: 'AI itineraries' },
+    { icon: Globe2, label: 'DMCs',     value: 'Vendor sync' },
+    { icon: Users,  label: 'MICE',     value: 'Group ops' },
+    { icon: Map,    label: 'Tour Ops', value: 'Live inventory' },
   ];
 
   return (
-    <div className="sm:hidden">
-      {items.map((it) => {
+    <div className="grid grid-cols-2 gap-3 sm:hidden">
+      {items.map((it, i) => {
         const Icon = it.icon;
         return (
           <div
             key={it.label}
-            className={`pointer-events-none absolute z-10 ${it.pos}`}
+            className="relative flex items-center gap-3 overflow-hidden rounded-xl px-3 py-3 backdrop-blur-md"
             style={{
-              animation: `cardEntry 0.8s ${it.delay} cubic-bezier(0.2,0.9,0.3,1.2) backwards, cardFloat 7s ${it.floatDelay} ease-in-out infinite`,
+              background:
+                'linear-gradient(160deg, rgba(31,31,31,0.88) 0%, rgba(42,41,41,0.72) 100%)',
+              border: `1px solid ${C.bgDarkSoft}`,
+              boxShadow: `0 8px 22px -10px rgba(0,0,0,0.7), 0 0 18px ${C.yellowGlow}1f, inset 0 1px 0 ${C.yellowGlow}1a`,
+              animation: `cardEntry 0.7s ${0.2 + i * 0.08}s cubic-bezier(0.2,0.9,0.3,1.2) backwards`,
             }}
           >
-            <div
-              className="relative flex w-[108px] flex-col items-center gap-2 overflow-hidden rounded-xl px-2.5 py-2.5 backdrop-blur-md"
+            {/* Inner soft yellow glow that breathes */}
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-0"
               style={{
-                background:
-                  'linear-gradient(160deg, rgba(31,31,31,0.88) 0%, rgba(42,41,41,0.72) 100%)',
-                border: `1px solid ${C.bgDarkSoft}`,
-                boxShadow: `0 8px 22px -10px rgba(0,0,0,0.7), 0 0 18px ${C.yellowGlow}1f, inset 0 1px 0 ${C.yellowGlow}1a`,
+                background: `radial-gradient(circle at 50% 0%, ${C.yellowGlow}1f 0%, transparent 70%)`,
+                animation: 'industryGlow 3.6s ease-in-out infinite',
+              }}
+            />
+
+            <div
+              className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+              style={{
+                background: `linear-gradient(135deg, ${C.yellowGlow}40 0%, ${C.yellow}26 100%)`,
+                border: `1px solid ${C.yellowGlow}66`,
+                boxShadow: `0 0 12px ${C.yellowGlow}33, inset 0 0 6px ${C.yellowGlow}22`,
               }}
             >
-              {/* Inner soft yellow glow that breathes */}
-              <span
-                aria-hidden
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background: `radial-gradient(circle at 50% 0%, ${C.yellowGlow}1f 0%, transparent 70%)`,
-                  animation: 'industryGlow 3.6s ease-in-out infinite',
-                }}
-              />
+              <Icon className="h-5 w-5" style={{ color: C.yellowGlow }} />
+            </div>
 
-              <div
-                className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-                style={{
-                  background: `linear-gradient(135deg, ${C.yellowGlow}40 0%, ${C.yellow}26 100%)`,
-                  border: `1px solid ${C.yellowGlow}66`,
-                  boxShadow: `0 0 12px ${C.yellowGlow}33, inset 0 0 6px ${C.yellowGlow}22`,
-                }}
+            <div className="relative min-w-0">
+              <p className="text-sm font-semibold leading-tight text-white">
+                {it.label}
+              </p>
+              <p
+                className="mt-0.5 text-[11px] leading-tight"
+                style={{ color: '#bdbdbd' }}
               >
-                <Icon className="h-4.5 w-4.5" style={{ color: C.yellowGlow }} />
-              </div>
-
-              <div className="relative text-center">
-                <p className="text-xs font-semibold leading-tight text-white">
-                  {it.label}
-                </p>
-                <p
-                  className="mt-0.5 text-[10.5px] leading-tight"
-                  style={{ color: '#bdbdbd' }}
-                >
-                  {it.value}
-                </p>
-              </div>
+                {it.value}
+              </p>
             </div>
           </div>
         );
@@ -857,12 +821,10 @@ function FeatureCard({ group }: { group: FeatureGroup }) {
   const Icon = group.icon;
   return (
     <div
-      className="feature-card group relative flex h-full flex-col overflow-hidden rounded-xl p-5 text-white"
+      className="feature-card group relative flex flex-col overflow-hidden rounded-xl p-5 text-white"
       style={{
         background: C.bgDark,
-        border: `1px solid ${C.bgDarkSoft}`,
-        boxShadow: `inset 0 1px 0 ${C.yellowGlow}14, 0 2px 8px rgba(0,0,0,0.06)`,
-        transition: 'transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 400ms ease, border-color 400ms ease',
+        transition: 'transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 400ms ease',
       }}
     >
       {/* Animated gradient border on hover */}
@@ -1009,11 +971,11 @@ function Features() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:auto-rows-fr sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid items-start gap-6 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURE_GROUPS.map((g, i) => (
             <div
               key={g.title}
-              className="reveal h-full"
+              className="reveal"
               style={{ transitionDelay: `${i * 90}ms` }}
             >
               <FeatureCard group={g} />
