@@ -318,21 +318,79 @@ function HeroBackground() {
         }}
       />
 
-      {/* Faded world map — anchors "global travel" */}
+      {/* World map covers the whole Hero — fills top-to-bottom behind the content + star */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
       >
         <img
           src={worldMap}
           alt=""
           draggable={false}
-          className="hero-world-map h-auto w-[140%] max-w-none translate-y-[10%] select-none lg:w-[110%]"
+          className="absolute inset-0 h-full w-full select-none object-cover"
           style={{
-            opacity: 0.07,
+            opacity: 0.1,
             filter: 'invert(1) brightness(2) contrast(1.1)',
           }}
         />
+      </div>
+
+      {/* Travel theme — dashed flight paths + pulsing destination pins */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <svg
+          preserveAspectRatio="none"
+          viewBox="0 0 100 100"
+          className="absolute inset-0 h-full w-full"
+        >
+          <path
+            d="M 8 22 Q 50 8 92 26"
+            fill="none"
+            stroke={C.yellowGlow}
+            strokeOpacity="0.3"
+            strokeDasharray="0.5 1.2"
+            strokeWidth="0.15"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d="M 4 58 Q 50 46 96 62"
+            fill="none"
+            stroke={C.yellowGlow}
+            strokeOpacity="0.25"
+            strokeDasharray="0.5 1.2"
+            strokeWidth="0.15"
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d="M 10 82 Q 50 94 90 78"
+            fill="none"
+            stroke={C.yellowGlow}
+            strokeOpacity="0.2"
+            strokeDasharray="0.5 1.2"
+            strokeWidth="0.15"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+        {[
+          { left: '8%', top: '22%' },
+          { left: '92%', top: '26%' },
+          { left: '4%', top: '58%' },
+          { left: '96%', top: '62%' },
+          { left: '10%', top: '82%' },
+          { left: '90%', top: '78%' },
+        ].map((pos, i) => (
+          <span
+            key={i}
+            className="hero-route-pin absolute h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full"
+            style={{
+              left: pos.left,
+              top: pos.top,
+              background: `${C.yellowGlow}66`,
+              boxShadow: `0 0 24px ${C.yellowGlow}55, 0 0 48px ${C.yellowGlow}33`,
+              filter: 'blur(22px)',
+              animationDelay: `${i * 0.5}s`,
+            }}
+          />
+        ))}
       </div>
 
       {/* A handful of quiet twinkling stars */}
@@ -380,9 +438,9 @@ function Hero() {
       <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:items-center lg:gap-12 lg:grid-cols-[1.05fr_1fr]">
           {/* LEFT: copy — full viewport on mobile so the star sits below the fold */}
-          <div className="flex min-h-screen flex-col items-center justify-center pt-24 text-center lg:block lg:min-h-0 lg:pt-0 lg:text-left">
-            <div className="mx-auto w-full max-w-[320px] lg:max-w-none">
-              <h1 className="text-[26px] font-bold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
+          <div className="relative flex min-h-screen flex-col items-center justify-center pt-24 text-center lg:block lg:min-h-0 lg:pt-0 lg:text-left">
+            <div className="relative z-10 mx-auto w-full max-w-[340px] lg:max-w-none">
+              <h1 className="text-[34px] font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
                 <span className="inline-flex items-center gap-2 sm:gap-3">
                   Meet
                   <span
@@ -466,6 +524,13 @@ function Hero() {
           15%  { opacity: 0.9; }
           70%  { stroke-dashoffset: 0; opacity: 0.9; }
           100% { stroke-dashoffset: -200; opacity: 0; }
+        }
+        .hero-route-pin {
+          animation: heroPinPulse 3s ease-in-out infinite;
+        }
+        @keyframes heroPinPulse {
+          0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); }
+          50%      { opacity: 0.6; transform: translate(-50%, -50%) scale(1.35); }
         }
       `}</style>
     </section>
@@ -554,10 +619,10 @@ function HeroVisual() {
         </svg>
       </div>
 
-      {/* Center hero star — the AI brain */}
+      {/* Center hero star — dimmed so the glow behind reads as the focal point */}
       <div
         className="absolute inset-[26%] flex items-center justify-center"
-        style={{ animation: 'float 6s ease-in-out infinite' }}
+        style={{ animation: 'float 6s ease-in-out infinite', opacity: 0.25 }}
       >
         <img
           src={heroStar}
@@ -794,9 +859,9 @@ function FeatureCard({ group }: { group: FeatureGroup }) {
     <div
       className="feature-card group relative flex h-full flex-col overflow-hidden rounded-xl p-5 text-white"
       style={{
-        background: `linear-gradient(160deg, ${C.bgDarkSoft} 0%, ${C.bgDark} 100%)`,
+        background: C.bgDark,
         border: `1px solid ${C.bgDarkSoft}`,
-        boxShadow: `inset 0 1px 0 ${C.yellowGlow}14, 0 1px 2px rgba(0,0,0,0.4), 0 12px 28px -12px rgba(0,0,0,0.55)`,
+        boxShadow: `inset 0 1px 0 ${C.yellowGlow}14, 0 2px 8px rgba(0,0,0,0.06)`,
         transition: 'transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 400ms ease, border-color 400ms ease',
       }}
     >
@@ -890,7 +955,7 @@ function Features() {
     <section
       id="features"
       className="relative overflow-hidden pt-12 pb-20 sm:pt-20"
-      style={{ background: '#f8f8f8' }}
+      style={{ background: '#ffffff' }}
     >
       <style>{`
         .feature-card { will-change: transform; }
@@ -975,22 +1040,39 @@ function WhyZarah() {
         `,
       }}
     >
-      {/* Subtle world map silhouette */}
+      {/* Decorative ambient graphics — soft yellow orbs + a faint grid */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden"
-      >
-        <img
-          src={worldMap}
-          alt=""
-          draggable={false}
-          className="h-auto w-[140%] max-w-none translate-y-[5%] select-none lg:w-[105%]"
-          style={{
-            opacity: 0.05,
-            filter: 'invert(1) brightness(2) contrast(1.1)',
-          }}
-        />
-      </div>
+        className="pointer-events-none absolute -left-24 top-[18%] h-72 w-72 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${C.yellowGlow}14 0%, transparent 70%)`,
+          filter: 'blur(60px)',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-20 bottom-[20%] h-80 w-80 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${C.yellowSoft}10 0%, transparent 70%)`,
+          filter: 'blur(70px)',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          background: `radial-gradient(circle, ${C.yellow}08 0%, transparent 65%)`,
+          filter: 'blur(50px)',
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage: `radial-gradient(${C.yellowGlow} 1px, transparent 1px)`,
+          backgroundSize: '32px 32px',
+        }}
+      />
 
       {/* Smooth wave layers — drift slowly for ambient motion */}
       <svg
@@ -1049,19 +1131,19 @@ function WhyZarah() {
           </p>
         </div>
 
-        <div className="mt-10 grid grid-cols-1 sm:mt-12 sm:grid-cols-2 sm:gap-7 md:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-10 grid grid-cols-1 sm:mt-12 sm:grid-cols-2 sm:gap-8 md:grid-cols-3 lg:grid-cols-5">
           {BENEFITS.map((b, i) => {
             const Icon = b.icon;
             return (
               <div
                 key={b.title}
-                className={`reveal group flex items-start gap-4 py-5 sm:flex-col sm:gap-0 sm:py-0 ${
+                className={`reveal group flex items-start gap-4 px-2 py-6 sm:flex-col sm:gap-0 sm:px-0 sm:py-0 ${
                   i !== 0 ? 'border-t sm:border-t-0' : ''
                 }`}
                 style={{ borderColor: C.bgDarkSoft, transitionDelay: `${i * 70}ms` }}
               >
                 <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 sm:h-10 sm:w-10"
+                  className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg transition-transform duration-300 group-hover:scale-110 sm:h-10 sm:w-10"
                   style={{
                     background: `${C.yellow}14`,
                     border: `1px solid ${C.yellow}40`,
@@ -1072,7 +1154,7 @@ function WhyZarah() {
                 <div className="min-w-0 flex-1 sm:mt-4">
                   <h3 className="text-base font-semibold leading-snug text-white">{b.title}</h3>
                   <p
-                    className="mt-1 text-[13px] leading-relaxed sm:mt-2"
+                    className="mt-1.5 text-[13px] leading-relaxed sm:mt-2"
                     style={{ color: '#bdbdbd' }}
                   >
                     {b.description}
@@ -1510,7 +1592,7 @@ export default function LandingPage() {
         const eased = 1 - Math.pow(1 - t, 2);
         heroPin.style.transform = `scale(${1 - eased * 0.06}) translate3d(0, ${eased * -28}px, 0)`;
         heroPin.style.opacity = `${1 - eased * 0.45}`;
-        heroPin.style.filter = `blur(${eased * 4}px)`;
+        heroPin.style.filter = '';
       } else {
         heroPin.style.transform = '';
         heroPin.style.opacity = '';
@@ -1578,12 +1660,12 @@ export default function LandingPage() {
       {/* Spacer — reserves the Hero's footprint in document flow only when it's pinned */}
       <div aria-hidden className="hidden h-screen lg:block" />
 
-      {/* Scrolling stack — covers the Hero with a real overlap shadow */}
+      {/* Scrolling stack — overlap shadow only renders ABOVE the wrapper so the white Features bg stays pure */}
       <div
         className="scroll-stack-top relative z-10"
         style={{
           boxShadow:
-            '0 -40px 70px -10px rgba(0,0,0,0.6), 0 -12px 28px -6px rgba(0,0,0,0.4)',
+            '0 -56px 40px 0 rgba(0,0,0,0.55), 0 -28px 24px 0 rgba(0,0,0,0.4)',
         }}
       >
         <main>
