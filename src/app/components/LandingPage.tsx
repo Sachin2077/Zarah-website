@@ -430,15 +430,15 @@ function Hero() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden lg:flex lg:h-screen lg:items-center lg:pt-24"
+      className="relative flex min-h-screen flex-col justify-center overflow-hidden pt-20 pb-10 lg:h-screen lg:flex-row lg:items-center lg:pt-24 lg:pb-0"
       style={{ background: C.bgDark }}
     >
       <HeroBackground />
 
       <div className="relative mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:grid lg:items-center lg:gap-12 lg:grid-cols-[1.05fr_1fr]">
-          {/* LEFT: copy — fills the first viewport on mobile (above the star), restores to left column on lg */}
-          <div className="relative order-1 flex min-h-screen flex-col items-center justify-center pt-24 text-center lg:order-none lg:block lg:min-h-0 lg:pt-0 lg:text-left">
+        <div className="lg:grid lg:items-center lg:gap-12 lg:grid-cols-[1.05fr_1fr]">
+          {/* LEFT: copy — fits inside the same 100vh as the cards on mobile, restores to left column on lg */}
+          <div className="relative text-center lg:text-left">
             <div className="relative z-10 mx-auto w-full max-w-[340px] lg:max-w-none">
               <h1 className="text-[34px] font-bold leading-[1.1] tracking-tight text-white sm:text-4xl lg:text-5xl xl:text-[56px]">
                 <span className="inline-flex items-center gap-2 sm:gap-3">
@@ -486,16 +486,16 @@ function Hero() {
                 </a>
               </div>
             </div>
+
+            {/* Mobile-only: industry verticals — fits inside the same viewport as the copy */}
+            <div className="relative z-10 mt-8 lg:hidden">
+              <MobileIndustryGrid />
+            </div>
           </div>
 
-          {/* RIGHT: AI travel mission control composition — sits below the copy on mobile, side panel on lg+ */}
-          <div className="order-2 pb-8 lg:order-none lg:py-0">
+          {/* RIGHT: AI travel mission control composition — hidden on mobile, side panel on lg+ */}
+          <div className="hidden lg:block">
             <HeroVisual />
-          </div>
-
-          {/* Mobile-only: industry verticals listed below the star */}
-          <div className="order-3 pt-4 pb-20 lg:hidden">
-            <MobileIndustryGrid />
           </div>
         </div>
       </div>
