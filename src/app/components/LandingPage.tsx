@@ -49,6 +49,11 @@ const C = {
   bgDark: '#1F1F1F',     // primary dark background
 };
 
+// Web3Forms access key — get a free one in ~30s at https://web3forms.com
+// (enter zarahai.llp@gmail.com, the key is emailed instantly), then paste it here.
+// All form submissions are delivered to the email address the key is registered to.
+const WEB3FORMS_ACCESS_KEY = '77fef442-b222-4a49-ad73-08b627c0fea8';
+
 type FeatureGroup = {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
@@ -821,7 +826,7 @@ function FeatureCard({ group }: { group: FeatureGroup }) {
   const Icon = group.icon;
   return (
     <div
-      className="feature-card group relative flex flex-col overflow-hidden rounded-xl p-5 text-white"
+      className="feature-card group relative flex h-full cursor-pointer flex-col overflow-hidden rounded-xl p-5 text-white"
       style={{
         background: C.bgDark,
         transition: 'transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 400ms ease',
@@ -971,11 +976,11 @@ function Features() {
           </p>
         </div>
 
-        <div className="mt-12 grid items-start gap-6 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid items-stretch gap-6 sm:gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURE_GROUPS.map((g, i) => (
             <div
               key={g.title}
-              className="reveal"
+              className="reveal h-full"
               style={{ transitionDelay: `${i * 90}ms` }}
             >
               <FeatureCard group={g} />
@@ -1091,21 +1096,40 @@ function WhyZarah() {
    ───────────────────────────────────────────────────────────────────────────── */
 function CTACard() {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'invalid' | 'error'>('idle');
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setStatus('error');
+      setStatus('invalid');
       return;
     }
     setStatus('submitting');
-    await new Promise((r) => setTimeout(r, 900));
-    setStatus('success');
+    try {
+      // Web3Forms — delivers the submission to the inbox tied to the access key
+      // (zarahai.llp@gmail.com). Pure client-side; no backend required.
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'New website lead — someone wants to reach out',
+          from_name: 'Zarah Website',
+          email,
+          message: `Someone has tried to reach out to us through our website. Their email address is: ${email}`,
+        }),
+      });
+      const result = await res.json();
+      if (!result.success) throw new Error(result.message || 'Submission failed');
+      setStatus('success');
+    } catch (err) {
+      console.error('[contact form] submission failed:', err);
+      setStatus('error');
+    }
   };
 
   return (
-    <div id="contact" className="mt-16 sm:mt-20">
+    <div id="contact" className="mt-16 scroll-mt-24 sm:mt-20">
       <div
         className="relative mx-auto max-w-4xl overflow-hidden rounded-[32px] px-6 py-12 sm:px-10 sm:py-14 lg:px-14"
         style={{
@@ -1233,7 +1257,7 @@ function CTACard() {
             <button
               type="submit"
               disabled={status === 'submitting' || status === 'success'}
-              className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition active:scale-[0.98] disabled:opacity-60"
+              className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
               style={{
                 background: `linear-gradient(135deg, ${C.yellowGlow} 0%, ${C.yellowSoft} 100%)`,
                 color: C.bgDark,
@@ -1270,9 +1294,14 @@ function CTACard() {
               Thanks! We'll be in touch within 24 hours.
             </p>
           )}
-          {status === 'error' && (
+          {status === 'invalid' && (
             <p className="mt-3 text-center text-xs animate-fadeIn" style={{ color: C.yellowSoft }}>
               Please enter a valid email address.
+            </p>
+          )}
+          {status === 'error' && (
+            <p className="mt-3 text-center text-xs animate-fadeIn" style={{ color: C.yellowSoft }}>
+              Something went wrong sending your request. Please try again.
             </p>
           )}
 
