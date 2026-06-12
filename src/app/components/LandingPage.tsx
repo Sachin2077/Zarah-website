@@ -50,9 +50,12 @@ const C = {
 };
 
 // Web3Forms access key — get a free one in ~30s at https://web3forms.com
-// (enter zarahai.llp@gmail.com, the key is emailed instantly), then paste it here.
+// (enter zarah@zarah-ai.com, the key is emailed instantly), then paste it here.
 // All form submissions are delivered to the email address the key is registered to.
 const WEB3FORMS_ACCESS_KEY = '77fef442-b222-4a49-ad73-08b627c0fea8';
+
+// Inbox that contact-form submissions are delivered to.
+const CONTACT_EMAIL = 'zarah@zarah-ai.com';
 
 type FeatureGroup = {
   icon: React.ComponentType<{ className?: string }>;
@@ -1106,13 +1109,14 @@ function CTACard() {
     }
     setStatus('submitting');
     try {
-      // Web3Forms — delivers the submission to the inbox tied to the access key
-      // (zarahai.llp@gmail.com). Pure client-side; no backend required.
+      // Web3Forms — delivers the submission to CONTACT_EMAIL (zarah@zarah-ai.com).
+      // Pure client-side; no backend required.
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_ACCESS_KEY,
+          to_email: CONTACT_EMAIL,
           subject: 'New website lead — someone wants to reach out',
           from_name: 'Zarah Website',
           email,
@@ -1448,12 +1452,24 @@ function Footer() {
               hours.
             </p>
             <a
-              href="#contact"
-              className="mt-4 inline-flex items-center gap-1.5 text-[13px] font-medium transition-colors"
-              style={{ color: C.yellowGlow }}
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="mt-4 inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition-all hover:scale-[1.02]"
+              style={{
+                color: C.yellowGlow,
+                borderColor: `${C.yellowGlow}40`,
+                background: `${C.yellowGlow}0d`,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = C.yellowGlow;
+                e.currentTarget.style.boxShadow = `0 0 18px ${C.yellowGlow}33`;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = `${C.yellowGlow}40`;
+                e.currentTarget.style.boxShadow = 'none';
+              }}
             >
-              Start a free trial
-              <ArrowRight className="h-3.5 w-3.5" />
+              <Mail className="h-3.5 w-3.5" />
+              {CONTACT_EMAIL}
             </a>
           </div>
         </div>
